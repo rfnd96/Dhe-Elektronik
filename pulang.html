@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: 'Arial', sans-serif;
+            background-image: url('https://www.transparenttextures.com/patterns/hexellence.png');
+            background-size: cover;
+        }
+
+        .dashboard-container {
+            max-width: 500px;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .profile-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-info img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        #camera, #canvas {
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            width: 100%;
+            height: 300px;
+            margin-bottom: 10px;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        button {
+            margin-top: 10px;
+            width: 80%;
+            border-radius: 20px;
+        }
+
+        /* Notifikasi Pop-up */
+        .notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #1e90ff;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+            z-index: 9999;
+            font-size: 16px;
+            animation: fadeInOut 3s forwards;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Profil Section -->
+        <div class="profile-info">
+            <img src="png1.png" alt="Profile Logo">
+            <div>
+                <h5 id="nama"></h5>
+                <p id="nik"></p>
+                <p id="jabatan"></p>
+            </div>
+        </div>
+
+        <!-- Kamera Preview & Foto Hasil -->
+        <div>
+            <video id="camera" autoplay></video>
+            <canvas id="canvas" style="display: none;"></canvas>
+        </div>
+
+        <!-- Tombol Aksi -->
+        <div class="button-group">
+            <button class="btn btn-primary" id="captureBtn">Ambil Foto</button>
+            <button class="btn btn-success" id="saveBtn">Simpan Foto</button>
+            <button class="btn btn-danger" id="backBtn">Kembali</button>
+        </div>
+    </div>
+
+    <!-- Notifikasi Pop-Up -->
+    <div id="notification" class="notification">Silahkan Pulang Hati-Hati Di Balong</div>
+
+    <script>
+        // ✅ Ambil data dari localStorage (Nama, NIK, Jabatan)
+        const nama = localStorage.getItem("nama");
+        const nik = localStorage.getItem("nik");
+        const jabatan = localStorage.getItem("jabatan");
+
+        if (!nama || !nik || !jabatan) {
+            alert("Silakan login terlebih dahulu.");
+            window.location.href = "Dashboard.html"; 
+        } else {
+            document.getElementById("nama").innerText = nama;
+            document.getElementById("nik").innerText = "NIK: " + nik;
+            document.getElementById("jabatan").innerText = jabatan;
+        }
+
+        // ✅ Konfigurasi Kamera
+        const video = document.getElementById('camera');
+        const canvas = document.getElementById('canvas');
+        const captureBtn = document.getElementById('captureBtn');
+        const saveBtn = document.getElementById('saveBtn');
+        const backBtn = document.getElementById('backBtn');
+        const notification = document.getElementById('notification');
+        let isPhotoTaken = false;
+
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => video.srcObject = stream)
+            .catch(err => console.error("Gagal mengakses kamera", err));
+
+        // ✅ Fungsi Mengambil Foto
+        captureBtn.addEventListener('click', () => {
+            if (!isPhotoTaken) {
+                const context = canvas.getContext('2d');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                video.style.display = 'none';
+                canvas.style.display = 'block';
+
+                captureBtn.textContent = 'Foto Ulang';
+                isPhotoTaken = true;
+            } else {
+                video.style.display = 'block';
+                canvas.style.display = 'none';
+                captureBtn.textContent = 'Ambil Foto';
+                isPhotoTaken = false;
+            }
+        });
+
+        // ✅ Fungsi Menyimpan Foto
+        saveBtn.addEventListener('click', () => {
+            if (isPhotoTaken) {
+                const link = document.createElement('a');
+                link.href = canvas.toDataURL('image/png');
+                link.download = 'foto_pengguna.png';
+                link.click();
+                
+                // Menampilkan Notifikasi
+                notification.style.display = 'block';
+                setTimeout(() => { notification.style.display = 'none'; }, 3000); 
+            } else {
+                alert("Harap ambil foto terlebih dahulu!");
+            }
+        });
+
+        // ✅ Fungsi Tombol Kembali
+        backBtn.addEventListener('click', () => {
+            window.location.href = "Dashboard.html"; 
+        });
+    </script>
+</body>
+
+</html>

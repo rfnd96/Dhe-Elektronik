@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Keluarga Besar Kanit</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: 'Arial', sans-serif;
+            background-image: url('https://www.transparenttextures.com/patterns/hexellence.png');
+            background-size: cover;
+        }
+
+        .login-container {
+            max-width: 400px;
+            margin: 60px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .login-logo img {
+            width: 150px;
+            height: auto;
+            border-radius: 15px;
+            margin-bottom: 10px;
+        }
+
+        .form-control {
+            border: 2px solid #0e0007;
+            border-radius: 15px;
+            padding: 10px 15px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .btn-login {
+            background-color: #e43434;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            color: white;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-login:hover {
+            background-color: #0E0007;
+        }
+
+        .small-text {
+            font-size: 14px;
+            color: #555;
+            margin-top: 10px;
+        }
+
+        .copyright-text {
+            margin-top: 5px;
+            font-size: 12px;
+            color: gray;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="login-logo">
+            <img src="jp2.png" alt="Logo Utama">
+            <h5><strong>Daftar Hadir Elektronik</strong></h5>
+            <h5>Keluarga Besar Kanit</h5>
+        </div>
+
+        <form id="loginForm" onsubmit="login(); return false;">
+            <input type="text" class="form-control" placeholder="Username" id="username">
+            <input type="password" class="form-control" placeholder="Kata Sandi" id="password">
+            <button type="submit" class="btn-login">Masuk</button>
+        </form>
+
+        <!-- Teks Tambahan -->
+        <div class="small-text">#Sing Aya Milik Na</div>
+        
+        <!-- Copyright -->
+        <div class="copyright-text">&copy; 2025 Rfnd & Keluarga Besar Kanit. All rights reserved.</div>
+    </div>
+
+    <script>
+        const users = [
+    { username: "Sandi", password: "Kanit2025", nama: "Sandi", nik: "3204050301960001", jabatan: "linmas Siaga 2" },
+    { username: "sidik pratama", password: "Kanit2025", nama: "Sidik Pratama", nik: "3204286543000", jabatan: "Jabatan Operator KTA" },
+    { username: "yunas ardianto", password: "Kanit2025", nama: "Yunas Ardianto", nik: "320428283031200", jabatan: "Jabatan OPR Siak" },
+    { username: "wawan rukmawan", password: "Kanit2025", nama: "Wawan Rukmawan", nik: "32732348596000", jabatan: "Jabatan Staf" },
+    { username: "pian supriatna", password: "Kanit2025", nama: "Pian Supriatna", nik: "32732938200003", jabatan: "Jabatan Satpol Pundung" },
+    { username: "ason", password: "Kanit2025", nama: "Ason", nik: "3204073456750000", jabatan: "Linmas Siaga 3" },
+    { username: "okky padliansyah", password: "Kanit2025", nama: "Okky Padliansyah", nik: "320407050505000", jabatan: "Anggota" },
+    { username: "sopi sopian", password: "Kanit2025", nama: "Sopi Sopian", nik: "3204072796980003", jabatan: "Jabatan Satpol PP" },
+    { username: "Encep rendi triwardana", password: "Kanit2025", nama: "Encep Rendi Triwardana", nik: "32040849399999", jabatan: "Jabatan Staf" }
+];
+
+
+        function login() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            const validUser = users.find(user => user.username === username && user.password === password);
+
+            if (validUser) {
+                localStorage.setItem("nama", validUser.nama);
+                localStorage.setItem("nik", validUser.nik);
+                localStorage.setItem("jabatan", validUser.jabatan);
+
+                alert(`Login Berhasil! Selamat datang ${validUser.nama}.`);
+                window.location.href = "Dashboard.html";
+            } else {
+                alert("Username atau password salah.");
+            }
+        }
+    </script>
+</body>
+
+</html>

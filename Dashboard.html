@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard DHE NON ASN</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: 'Arial', sans-serif;
+            background-image: url('https://www.transparenttextures.com/patterns/hexellence.png');
+            background-size: cover;
+        }
+
+        .dashboard-container {
+            max-width: 500px;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-section img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .profile-section h5 {
+            margin-bottom: 5px;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border: 2px solid #ddd;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .btn-absen {
+            flex: 1;
+            background-color: #1E90FF;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-absen:hover {
+            background-color: #0B63CE;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Profil Section -->
+        <div class="profile-section">
+            <img src="png1.png" alt="Logo Utama">
+            <h5 id="nama"></h5>
+            <p id="nik"></p>
+            <p id="jabatan"></p>
+        </div>
+
+        <!-- Google Maps Section -->
+        <div class="map-container">
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3162.2982398448235!2d107.62969041524178!3d-6.889894869432368!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e9b8af92c337%3A0x3b58e1d9b1c1c6b5!2sUniversitas%20Pendidikan%20Indonesia%20(UPI)!5e0!3m2!1sen!2sid!4v1619302765626!5m2!1sen!2sid" 
+                width="100%" 
+                height="100%" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy">
+            </iframe>
+        </div>
+
+        <!-- Tombol Absen -->
+        <div class="btn-group">
+            <button class="btn-absen" onclick="location.href='simpan.html'">Masuk</button>
+            <button class="btn-absen" onclick="location.href='pulang.html'">Pulang</button>
+            <button class="btn-absen" onclick="location.href='dinas_dalam.html'">Dinas Dalam</button>
+            <button class="btn-absen" onclick="location.href='dinas_luar.html'">Dinas Luar</button>
+        </div>
+    </div>
+
+    <script>
+        // Ambil data dari localStorage
+        const nama = localStorage.getItem("nama");
+        const nik = localStorage.getItem("nik");
+        const jabatan = localStorage.getItem("jabatan");
+
+        // Cek apakah user sudah login atau belum
+        if (!nama || !nik || !jabatan) {
+            alert("Silakan login terlebih dahulu.");
+            window.location.href = "Login.html";
+        } else {
+            document.getElementById("nama").innerText = nama;
+            document.getElementById("nik").innerText = "NIK: " + nik;
+            document.getElementById("jabatan").innerText = jabatan;
+        }
+    </script>
+</body>
+
+</html>
